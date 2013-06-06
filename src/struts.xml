@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.custom.i18n.resources" value="message"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.multipart.maxSize" value="2097152000" />
+	<constant name="struts.action.extension" value="html,do,action" />
+
+	<include file="struts-default.xml" />
+	<package name="default" extends="struts-default,json-default">
+
+		<!-- register action -->
+		<action name="checkRegisterAction" class="registerAction" method="check">
+			<result name="result" type="json"></result>
+		</action>
+		<!-- register action -->
+
+		<!-- manager -->
+		<action name="queryActionlog" class="managerAction" method="querylog">
+			<result name="success">manager_logs.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<!-- manager -->
+
+		<!-- user action -->
+		<action name="logoutAction" class="userAction" method="logout">
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="passwdAction" class="userAction" method="passwd">
+			<result name="passwdresult" type="json"></result>
+		</action>
+		<action name="getUserlistAction" class="userAction" method="getUserlist">
+			<result name="success">manage_user.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="addUserAction" class="userAction" method="addUser">
+			<result name="success">manage_user.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="delUserAction" class="userAction" method="delUser">
+			<result name="success">manage_user.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="editUserAction" class="userAction" method="editUser">
+			<result name="success">manage_user.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delSelectedUserAction" class="userAction" method="delSelectedUser">
+			<result name="success">manage_user.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="managerAction" class="userAction" method="getUserlist">
+			<result name="success">manager.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<!-- user action -->
+		
+		<!-- resource action -->
+		<action name="allResourceAction" class="resourceAction" method="displayCategory">
+			<result name="manageResourcePage">manage_resource.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="resourceAction" class="resourceAction" method="execute">
+			<result name="videopage">manage_video.jsp</result>
+			<result name="imagepage">manage_image.jsp</result>
+			<result name="textpage">manage_text.jsp</result>
+			<result name="audiopage">manage_audio.jsp</result>
+			<result name="uploadpage">resource_upload.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delResourceAction" class="resourceAction" method="delResourceAction">
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delSelectedResourceAction" class="resourceAction" method="delSelectedResource">
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<!-- resource action -->
+
+		<!-- file upload & download -->
+		<action name="fileUpload" class="com.cemso.action.FileUploadAction">
+			<result name="input">/index.jsp</result>
+			<result name="success">/success.jsp</result>
+			<result name="login">index.jsp</result>
+			<result name="register">register.jsp</result>
+		</action>
+		<action name="fileDownload" class="com.cemso.action.FileDownloadAction">
+			<result name="input">/index.jsp</result>
+			<result name="success" type="stream">
+				<param name="contentType">
+                    text/xml
+                </param>
+                <param name="contentDisposition">
+                    attachment;filename="${fileName}"
+                </param>
+                <param name="inputName">downloadFile</param>
+			</result>
+		</action>
+		<!-- file upload & download -->
+		
+		<!-- template action -->
+		<action name="addTemplateAction" class="templateAction" method="addTemplate">
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="getTemplateAction" class="templateAction" method="getTemplates">
+			<result name="templatepage">manage_template.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delTemplateAction" class="templateAction" method="delTemplateAction">
+			<result name="templatepage">manage_template.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delSelectedTemplateAction" class="templateAction" method="delSelectedTemplate">
+			<result name="templatepage">manage_template.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="templateDesignAction" class="templateAction" method="templateDesign">
+			<result name="templateDesignPage">design_template.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		
+		<!-- program action start-->
+		<action name="getProgramAction" class="programAction" method="getProgram">
+			<result name="programpage">manage_program.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="addProgramAction" class="programAction" method="addProgram">
+			<result name="programpage">manage_program.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delProgramAction" class="programAction" method="delProgram">
+			<result name="programpage">manage_program.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="delSelectedProgramAction" class="programAction" method="delSelectedProgram">
+			<result name="programpage">manage_program.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<action name="editProgram" class="programAction" method="editProgram">
+			<result name="programpage">manage_program.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.html</result>
+		</action>
+		<!-- program action end -->
+		
+		<!-- playlist action start -->
+		<action name="getPlaylistAction" class="playlistAction" method="getPlaylist">
+			<result name="playlist">manage_playlist.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="addPlaylistAction" class="playlistAction" method="addPlaylist">
+			<result name="playlist">manage_playlist.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="delPlaylistAction" class="playlistAction" method="delPlaylist">
+			<result name="playlist">manage_playlist.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="delSelectedPlaylistAction" class="playlistAction" method="delSelectedPlaylist">
+			<result name="playlist">manage_playlist.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="editPlaylist" class="playlistAction" method="editPlaylist">
+			<result name="playlist">manage_playlist.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<!-- 
+		<action name="pushPlaylistAction" class="playlistAction" method="pushPlaylist">
+			<result name="playlist">manage_playlist.jsp</result>
+			<result name="success">index.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		 -->
+		<!-- playlist action end -->
+		
+		<!-- device action -->
+		<action name="addDeviceAction" class="deviceAction" method="addDevice">
+			<result name="success">manage_device_display.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="editDeviceAction" class="deviceAction" method="editDevice">
+			<result name="success">manage_device_display.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="delDeviceAction" class="deviceAction" method="delDevice">
+			<result name="success">manage_device_display.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="getDeviceAction" class="deviceAction" method="getDevice">
+			<result name="devicelist">manage_device.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="delSelectedDeviceAction" class="deviceAction" method="delSelectedDevice">
+			<result name="success">manage_device.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="getGroupDeviceListAction" class="deviceAction" method="getGroupDeviceList">
+			<result name="success">manage_device_display.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="getMinitorAction" class="deviceAction" method="getMinitor">
+			<result name="success">manage_monitor.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="refreshAllStautesAction" class="deviceAction" method="refreshAllStautes">
+			<result name="refreshAllStautesResult" type="json"></result>
+		</action>
+		<action name="refreshMinitorAction" class="deviceAction" method="refreshMinitor">
+			<result name="success">manage_monitor_refresh.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="searchMinitorAction" class="deviceAction" method="searchMinitor">
+			<result name="success">manage_monitor_search.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="exportDeviceAction" class="deviceAction" method="exportDevice">
+			<result name="success">manage_monitor_excel.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="monitorOperationAction" class="deviceAction" method="monitorOperation">
+			<result name="success">manage_monitor_operation.jsp</result>
+			<result name="error">common/error.jsp</result>
+		</action>
+		<action name="getTreeXmlAction" class="deviceAction" method="getTreeXml">
+			<result type="stream">
+                <param name="contentType">text/xml</param>
+                <param name="inputName">treeStream</param>
+            </result>
+		</action>
+		<action name="pushPlaylistAction" class="deviceAction" method="pushPlaylist">
+			<result name="pushStatus" type="json"></result>
+		</action>
+		<action name="refreshSelectedDeviceAction" class="deviceAction" method="refreshSelectedDevice">
+			<result name="refreshStatus" type="json"></result>
+		</action>
+		<action name="pullDefaultPicAction" class="deviceAction" method="pullDefaultPic">
+			<result name="pulledStatus" type="json"></result>
+		</action>
+		<!-- device action -->
+		
+	</package>
+	
+	<!-- edit program & playlist return json data-->
+	<package name="returnjson" extends="json-default">
+		<!-- login action -->
+		<action name="loginAction" class="loginAction" method="login">
+			<result name="userObj" type="json"></result>
+		</action>
+		<!-- login action -->
+		<action name="editGetProgram" class="programAction" method="editGetProgram">
+			<result name="programObject" type="json"></result>
+		</action>
+		<action name="previewGetProgram" class="programAction" method="previewGetProgram">
+			<result name="programObject" type="json"></result>
+		</action>
+		<action name="editGetPlaylist" class="playlistAction" method="editGetPlaylist">
+			<result name="playlistObject" type="json"></result>
+		</action>
+		<action name="editGetUser" class="userAction" method="editGetUser">
+			<result name="userObject" type="json"></result>
+		</action>
+		<action name="addNodeToTreeXmlAction" class="deviceAction" method="addNodeToTreeXml">
+			<result name="deviceObject" type="json"></result>
+		</action>
+		<action name="delNodeToTreeXmlAction" class="deviceAction" method="delNodeToTreeXml">
+			<result name="deviceObject" type="json"></result>
+		</action>
+	</package>
+	<!-- edit program & playlist return json data-->
+</struts>

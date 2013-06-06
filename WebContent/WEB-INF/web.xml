@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>CPS</display-name>
+
+	<welcome-file-list>
+		<welcome-file>register.jsp</welcome-file>
+		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- init when tomcat startup -->
+	<servlet>
+		<servlet-name>InitServlet</servlet-name>
+		<servlet-class>com.cemso.util.InitServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- init when tomcat startup -->
+
+	<!-- restful service -->
+	<servlet>
+	     <servlet-name>JerseyServlet</servlet-name>
+	     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+	     <load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	     <servlet-name>JerseyServlet</servlet-name>
+	     <url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+	<!-- restful service -->
+
+	<!-- encoding filter -->
+	<filter>
+		<filter-name>encodeFilter</filter-name>
+		<filter-class>com.cemso.util.EncodeFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- encoding filter -->
+
+	<!-- session filter -->
+	<filter>
+		<filter-name>sessionFilter</filter-name>
+		<filter-class>com.cemso.util.SessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>/index.jsp</url-pattern>
+	</filter-mapping>
+	<!-- session filter -->
+
+	<!-- Struts2 Configuration -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Spring Configuration -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:applicationContext*.xml,/WEB-INF/applicationContext*.xml</param-value>
+	</context-param>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+</web-app> 

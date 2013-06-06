@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="GBK"?>
+<tree>
+	<tree id="default" text="默认分组" toolTip="默认分组" action="javascript:getDeviceList('default','默认分组')" expanded="true"/>
+</tree>

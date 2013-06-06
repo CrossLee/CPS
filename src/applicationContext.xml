@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		
+		<!-- <property name="url" value="jdbc:mysql://114.84.173.66:3306/IntpubDB"></property> -->
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/cps?characterEncoding=gbk"></property>
+		
+		<property name="username" value="root"></property>
+		<property name="password" value="intpub"></property>
+	</bean>
+	
+	<!-- jaxrs service -->
+	<bean id="jaxrsService" class="com.cemso.rest.service.RestService" scope="prototype">
+		<property name="deviceService" ref="deviceService"></property>
+	</bean>
+	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+    </bean>
+
+	<bean id="managerAction" class="com.cemso.action.ManagerAction" scope="prototype">
+		<property name="managerService" ref="managerService" />
+	</bean>
+	<bean id="registerAction" class="com.cemso.action.RegisterAction" scope="prototype">
+		<property name="registerService" ref="registerService" />
+	</bean>
+	<bean id="loginAction" class="com.cemso.action.LoginAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+	</bean>
+	<bean id="userAction" class="com.cemso.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+	</bean>
+	<bean id="resourceAction" class="com.cemso.action.ResourceAction" scope="prototype">
+		<property name="resourceService" ref="resourceService"></property>
+		<property name="registerService" ref="registerService" />
+	</bean>
+	<bean id="templateAction" class="com.cemso.action.TemplateAction" scope="prototype">
+		<property name="templateService" ref="templateService" />
+	</bean>
+	<bean id="programAction" class="com.cemso.action.ProgramAction" scope="prototype">
+		<property name="programService" ref="programService" />
+		<property name="templateService" ref="templateService" />
+		<property name="resourceService" ref="resourceService" />
+		<property name="templateModelService" ref="templateModelService" />
+	</bean>
+	<bean id="playlistAction" class="com.cemso.action.PlaylistAction" scope="prototype">
+		<property name="playlistService" ref="playlistService" />
+		<property name="programService" ref="programService" />
+	</bean>
+	<bean id="deviceAction" class="com.cemso.action.DeviceAction" scope="prototype">
+		<property name="deviceService" ref="deviceService" />
+		<property name="resourceService" ref="resourceService" />
+	</bean>
+	<bean id="fileDownload" class="com.cemso.action.FileDownloadAction" scope="prototype">
+		<property name="playlistService" ref="playlistService" />
+		<property name="templateService" ref="templateService" />
+		<property name="programService" ref="programService" />
+	</bean>
+	<bean id="fileUpload" class="com.cemso.action.FileUploadAction" scope="prototype">
+		<property name="resourceService" ref="resourceService" />
+		<property name="registerService" ref="registerService" />
+	</bean>
+	
+	<!-- service start -->
+	<bean id="managerService" class="com.cemso.service.impl.ManagerServiceImpl">
+		<property name="managerDao" ref="managerDao"></property>
+	</bean>
+	<bean id="registerService" class="com.cemso.service.impl.RegisterServiceImpl">
+		<property name="registerDao" ref="registerDao"></property>
+	</bean>
+	<bean id="deviceService" class="com.cemso.service.impl.DeviceServiceImpl">
+		<property name="deviceDao" ref="deviceDao"></property>
+		<property name="playlistDao" ref="playlistDao"></property>
+		<property name="programDao" ref="programDao"></property>
+		<property name="templateDao" ref="templateDao"></property>
+		<property name="resourceDao" ref="resourceDao"></property>
+		<property name="onebyoneDao" ref="onebyoneDao"></property>
+	</bean>
+	<bean id="playlistService" class="com.cemso.service.impl.PlaylistServiceImpl">
+		<property name="playlistDao" ref="playlistDao"></property>
+	</bean>
+	<bean id="programService" class="com.cemso.service.impl.ProgramServiceImpl">
+		<property name="programDao" ref="programDao"></property>
+		<property name="onebyoneDao" ref="onebyoneDao"></property>
+		<property name="resourceDao" ref="resourceDao"></property>
+		<property name="templateDao" ref="templateDao"></property>
+		<property name="playlistDao" ref="playlistDao"></property>
+	</bean>
+	<bean id="resourceService" class="com.cemso.service.impl.ResourceServiceImpl">
+		<property name="resourceDao" ref="resourceDao"></property>
+		<property name="onebyoneDao" ref="onebyoneDao"></property>
+	</bean>
+	<bean id="templateService" class="com.cemso.service.impl.TemplateServiceImpl">
+		<property name="templateDao" ref="templateDao"></property>
+		<property name="programDao" ref="programDao"></property>
+	</bean>
+	<bean id="templateModelService" class="com.cemso.service.impl.TemplateModelServiceImpl">
+		<property name="templatemodelDao" ref="templatemodelDao"></property>
+	</bean>
+	<bean id="userService" class="com.cemso.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	<!-- service end -->
+
+	<!-- dao start  -->
+	<bean id="managerDao" class="com.cemso.dao.impl.ManagerDaoImpl"></bean>
+	<bean id="registerDao" class="com.cemso.dao.impl.RegisterDaoImpl"></bean>
+	<bean id="deviceDao" class="com.cemso.dao.impl.DeviceDaoImpl"></bean>
+	<bean id="onebyoneDao" class="com.cemso.dao.impl.OnebyoneDaoImpl"></bean>
+	<bean id="playlistDao" class="com.cemso.dao.impl.PlaylistDaoImpl"></bean>
+	<bean id="programDao" class="com.cemso.dao.impl.ProgramDaoImpl"></bean>
+	<bean id="resourceDao" class="com.cemso.dao.impl.ResourceDaoImpl"></bean>
+	<bean id="templateDao" class="com.cemso.dao.impl.TemplateDaoImpl"></bean>
+	<bean id="templatemodelDao" class="com.cemso.dao.impl.TemplatemodelDaoImpl"></bean>
+	<bean id="userDao" class="com.cemso.dao.impl.UserDaoImpl"></bean>
+	<bean id="treenodeDao" class="com.cemso.dao.impl.TreenodeDaoImpl"></bean>
+	<!-- dao end  -->
+</beans>
