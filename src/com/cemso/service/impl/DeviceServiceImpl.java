@@ -350,6 +350,12 @@ public class DeviceServiceImpl implements DeviceService {
 					resourceSet.add(resources.get(i));
 				}
 				int temp = instance.AddMediaFile(ip, resources.get(i));
+				// if send one file failed, return
+				if(temp == 0){
+					bw.close();
+					fw.close();
+					return false;
+				}
 				Thread.currentThread().sleep(1000);
 				flag += temp;
 				if (log.isInfoEnabled()) {
